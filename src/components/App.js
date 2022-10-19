@@ -41,6 +41,12 @@ function App() {
     });
   };
 
+  const onTodoDelete = (id) => () => {
+    let _todos = { ...todos };
+    delete _todos[id];
+    setTodos(_todos);
+  };
+
   return (
     <div className="App">
       <form onSubmit={onAddNewTodo}>
@@ -58,7 +64,7 @@ function App() {
               onChange={onTodoChecked(id)}
             />
             {text}
-            <button>X</button>
+            <button onClick={onTodoDelete(id)}>X</button>
             <button>E</button>
           </li>
         ))}
