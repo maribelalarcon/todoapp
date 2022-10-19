@@ -2,18 +2,7 @@ import React, { useState } from "react";
 
 function App() {
   const [newTodo, setNewTodo] = useState("");
-  const [todos, setTodos] = useState({
-    1: {
-      id: 1,
-      checked: false,
-      text: "comprar leche",
-    },
-    2: {
-      id: 2,
-      checked: true,
-      text: "hacer la cama",
-    },
-  });
+  const [todos, setTodos] = useState({});
 
   const onNewTodoChange = (event) => setNewTodo(event.target.value);
 
@@ -25,6 +14,7 @@ function App() {
       [id]: {
         id,
         checked: false,
+        editing: false,
         text: newTodo,
       },
     });
@@ -37,6 +27,27 @@ function App() {
       [id]: {
         ...todos[id],
         checked: event.target.checked,
+      },
+    });
+  };
+
+  const onTodoEdit = (id) => () => {
+    setTodos({
+      ...todos,
+      [id]: {
+        ...todos[id],
+        editing: !todos[id].editing,
+      },
+    });
+  };
+
+  const onTodoUpdate = (id) => (event) => {
+    setNewTodo();
+    setTodos({
+      ...todos,
+      [id]: {
+        ...todos[id],
+        text: event.target.value,
       },
     });
   };
@@ -56,16 +67,21 @@ function App() {
       <button>Filter</button>
       <button>Cats</button>
       <ul>
-        {Object.values(todos).map(({ id, text, checked }) => (
+        {Object.values(todos).map(({ id, text, checked, editing }) => (
           <li key={id}>
             <input
               type="checkbox"
               checked={checked}
               onChange={onTodoChecked(id)}
             />
-            {text}
+
+            {editing ? (
+              <input type="text" value={text} onChange={onTodoUpdate(id)} />
+            ) : (
+              text
+            )}
+            <button onClick={onTodoEdit(id)}>{editing ? "Save" : "E"}</button>
             <button onClick={onTodoDelete(id)}>X</button>
-            <button>E</button>
           </li>
         ))}
       </ul>
