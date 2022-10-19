@@ -2,9 +2,11 @@ import React, { useState } from "react";
 
 function App() {
   const [newTodo, setNewTodo] = useState("");
+  const [filter, setFilter] = useState("");
   const [todos, setTodos] = useState({});
 
   const onNewTodoChange = (event) => setNewTodo(event.target.value);
+  const onFilterChange = (event) => setFilter(event.target.value);
 
   const onAddNewTodo = (event) => {
     event.preventDefault();
@@ -64,26 +66,28 @@ function App() {
         <input type="text" value={newTodo} onChange={onNewTodoChange} />
         <input type="submit" value="+" />
       </form>
-      <button>Filter</button>
+      <input type="text" value={filter} onChange={onFilterChange} />
       <button>Cats</button>
       <ul>
-        {Object.values(todos).map(({ id, text, checked, editing }) => (
-          <li key={id}>
-            <input
-              type="checkbox"
-              checked={checked}
-              onChange={onTodoChecked(id)}
-            />
+        {Object.values(todos)
+          .filter(({ text }) => text.indexOf(filter) !== -1)
+          .map(({ id, text, checked, editing }) => (
+            <li key={id}>
+              <input
+                type="checkbox"
+                checked={checked}
+                onChange={onTodoChecked(id)}
+              />
 
-            {editing ? (
-              <input type="text" value={text} onChange={onTodoUpdate(id)} />
-            ) : (
-              text
-            )}
-            <button onClick={onTodoEdit(id)}>{editing ? "Save" : "E"}</button>
-            <button onClick={onTodoDelete(id)}>X</button>
-          </li>
-        ))}
+              {editing ? (
+                <input type="text" value={text} onChange={onTodoUpdate(id)} />
+              ) : (
+                text
+              )}
+              <button onClick={onTodoEdit(id)}>{editing ? "Save" : "E"}</button>
+              <button onClick={onTodoDelete(id)}>X</button>
+            </li>
+          ))}
       </ul>
     </div>
   );
