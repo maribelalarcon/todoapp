@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 
 function App() {
+  const [newTodo, setNewTodo] = useState("");
   const [todos, setTodos] = useState([
     {
       id: 1,
@@ -14,10 +15,22 @@ function App() {
     },
   ]);
 
+  const onNewTodoChange = (event) => setNewTodo(event.target.value);
+
+  const onAddNewTodo = () =>
+    setTodos([
+      ...todos,
+      {
+        id: Date.now(),
+        checked: false,
+        text: newTodo,
+      },
+    ]);
+
   return (
     <div className="App">
-      <input type="text" />
-      <button>+</button>
+      <input type="text" value={newTodo} onChange={onNewTodoChange} />
+      <button onClick={onAddNewTodo}>+</button>
       <button>Filter</button>
       <button>Cats</button>
       <ul>
