@@ -17,7 +17,8 @@ function App() {
 
   const onNewTodoChange = (event) => setNewTodo(event.target.value);
 
-  const onAddNewTodo = () => {
+  const onAddNewTodo = (event) => {
+    event.preventDefault();
     const id = Date.now();
     setTodos({
       ...todos,
@@ -42,8 +43,10 @@ function App() {
 
   return (
     <div className="App">
-      <input type="text" value={newTodo} onChange={onNewTodoChange} />
-      <button onClick={onAddNewTodo}>+</button>
+      <form onSubmit={onAddNewTodo}>
+        <input type="text" value={newTodo} onChange={onNewTodoChange} />
+        <input type="submit" value="+" />
+      </form>
       <button>Filter</button>
       <button>Cats</button>
       <ul>
