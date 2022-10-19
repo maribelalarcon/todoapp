@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import TodoList from "components/TodoList";
+import styles from "components/App.module.css";
 
 const CAT_API_URL = "https://catfact.ninja/facts";
 
@@ -61,32 +62,49 @@ function App() {
   };
 
   return (
-    <div className="App">
-      <form onSubmit={onAddNewTodo}>
-        <input
-          type="text"
-          value={newTodo}
-          onChange={onNewTodoChange}
-          placeholder="Add new todo..."
-        />
-        <input type="submit" value="+" />
-      </form>
-      <input
-        type="text"
-        value={filter}
-        onChange={onFilterChange}
-        placeholder="Filter todos..."
-      />
-      <input
-        type="number"
-        min={1}
-        max={100}
-        value={numberOfCatPhrases}
-        onChange={onNumberOfCatPhrasesChange}
-        placeholder="Filter todos..."
-      />
-      <button onClick={onCatPhrasesLoad}>Load cats</button>
-      <TodoList todos={todos} onChange={onTodosChange} filter={filter} />
+    <div className={styles.app}>
+      <h1 className={styles.title}>Lista de tareas</h1>
+
+      <div className={styles.topBar}>
+        <div className={styles.newTodo}>
+          <form onSubmit={onAddNewTodo}>
+            <input
+              type="text"
+              value={newTodo}
+              onChange={onNewTodoChange}
+              placeholder="Add new todo..."
+            />
+            <input type="submit" value="+" className={styles.blueButton} />
+          </form>
+        </div>
+
+        <div className={styles.filterAndCatPhrases}>
+          <input
+            type="text"
+            value={filter}
+            onChange={onFilterChange}
+            placeholder="Filter todos..."
+          />
+          <input
+            type="number"
+            min={1}
+            max={100}
+            value={numberOfCatPhrases}
+            onChange={onNumberOfCatPhrasesChange}
+            placeholder="Filter todos..."
+            className={styles.catPhrasesCount}
+          />
+          <button onClick={onCatPhrasesLoad} className={styles.blueButton}>
+            Load cats
+          </button>
+        </div>
+      </div>
+
+      {Object.values(todos).length ? (
+        <TodoList todos={todos} onChange={onTodosChange} filter={filter} />
+      ) : (
+        <p className={styles.noTodos}>No hay tareas pendientes</p>
+      )}
     </div>
   );
 }
