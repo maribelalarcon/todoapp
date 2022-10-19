@@ -1,0 +1,63 @@
+
+.app {
+    background: white;
+    
+    max-width: 500px;
+    margin: 20px auto;
+    padding: 20px;
+}
+
+.title {
+    font-size: 21px;
+    text-align: center;
+    margin: 0 0 20px 0;
+}
+
+.topBar {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+}
+
+.newTodo {
+    display: flex;
+    margin-bottom: 10px;
+}
+
+.newTodo form {
+    display: flex;
+    width: 100%;
+}
+
+.newTodo form input[type="text"] {
+    flex: 1;
+}
+
+.newTodo form input[type="submit"] {
+    flex: 0;
+}
+
+.filterAndCatPhrases {
+    display: flex;
+}
+
+.filterAndCatPhrases input[type="text"] {
+    flex: 1;
+}
+
+.filterAndCatPhrases .catPhrasesCount {
+    margin-left: 10px;
+}
+
+.noTodos {
+    text-align: center;
+    padding: 40px 0;
+}
+
+.blueButton {
+    background: #3194C9;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    margin-left: 5px;
+}

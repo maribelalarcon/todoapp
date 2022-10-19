@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import TodoList from "components/TodoList";
-import styles from "components/App.module.css";
+import TodoList from "./TodoList";
+import styles from "./App.module.css";
 
 const CAT_API_URL = "https://catfact.ninja/facts";
 
