@@ -1,17 +1,20 @@
 import React, { useState } from "react";
+import TodoList from "components/TodoList";
 
 const CAT_API_URL = "https://catfact.ninja/facts";
 
 function App() {
   const [newTodo, setNewTodo] = useState("");
   const [filter, setFilter] = useState("");
-  const [numberOfCatPhrases, setNumberOfCatPhrases] = useState(5);
+  const [numberOfCatPhrases, setNumberOfCatPhrases] = useState(10);
   const [todos, setTodos] = useState({});
 
   const onNewTodoChange = (event) => setNewTodo(event.target.value);
   const onFilterChange = (event) => setFilter(event.target.value);
   const onNumberOfCatPhrasesChange = (event) =>
     setNumberOfCatPhrases(event.target.value);
+
+  const onTodosChange = (todos) => setTodos(todos);
 
   const onAddNewTodo = (event) => {
     event.preventDefault();
@@ -28,47 +31,11 @@ function App() {
     setNewTodo("");
   };
 
-  const onTodoChecked = (id) => (event) => {
-    setTodos({
-      ...todos,
-      [id]: {
-        ...todos[id],
-        checked: event.target.checked,
-      },
-    });
-  };
-
-  const onTodoEdit = (id) => () => {
-    setTodos({
-      ...todos,
-      [id]: {
-        ...todos[id],
-        editing: !todos[id].editing,
-      },
-    });
-  };
-
-  const onTodoUpdate = (id) => (event) => {
-    setNewTodo();
-    setTodos({
-      ...todos,
-      [id]: {
-        ...todos[id],
-        text: event.target.value,
-      },
-    });
-  };
-
-  const onTodoDelete = (id) => () => {
-    let _todos = { ...todos };
-    delete _todos[id];
-    setTodos(_todos);
-  };
-
   const onCatPhrasesLoad = async () => {
     const { data } = await fetch(
       `${CAT_API_URL}?${new URLSearchParams({
         limit: numberOfCatPhrases,
+        max_length: 150,
       })}`
     ).then((response) => response.json());
 
@@ -119,27 +86,7 @@ function App() {
         placeholder="Filter todos..."
       />
       <button onClick={onCatPhrasesLoad}>Load cats</button>
-      <ul>
-        {Object.values(todos)
-          .filter(({ text }) => text.indexOf(filter) !== -1)
-          .map(({ id, text, checked, editing }) => (
-            <li key={id}>
-              <input
-                type="checkbox"
-                checked={checked}
-                onChange={onTodoChecked(id)}
-              />
-
-              {editing ? (
-                <input type="text" value={text} onChange={onTodoUpdate(id)} />
-              ) : (
-                text
-              )}
-              <button onClick={onTodoEdit(id)}>{editing ? "Save" : "E"}</button>
-              <button onClick={onTodoDelete(id)}>X</button>
-            </li>
-          ))}
-      </ul>
+      <TodoList todos={todos} onChange={onTodosChange} filter={filter} />
     </div>
   );
 }
