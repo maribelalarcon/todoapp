@@ -21,10 +21,10 @@ function App() {
       <button>Filter</button>
       <button>Cats</button>
       <ul>
-        {todos.map((todo) => (
-          <li>
-            <input type="checkbox" />
-            comprar leche
+        {todos.map(({ id, text, checked }) => (
+          <li key={id}>
+            <input type="checkbox" checked={checked} />
+            {text}
             <button>X</button>
             <button>E</button>
           </li>
